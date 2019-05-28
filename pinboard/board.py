@@ -73,24 +73,31 @@ def get_posts(session, to_json = False):
     return sorted_by_popularity
 
 def popularity_sorting(posts):
-    date_format = "%Y-%m-%d %H:%M:%S"
-    max_date = posts[0]["created"]
-    max_data_timestamp = datetime.strptime(max_date, date_format).timestamp()
-    min_date = posts[-1]["created"]
-    min_data_timestamp = datetime.strptime(min_date, date_format).timestamp()
-    post_amount = len(posts)
+    if len(posts) > 0:
+        date_format = "%Y-%m-%d %H:%M:%S"
+        max_date = posts[0]["created"]
+        max_data_timestamp = datetime.strptime(max_date, date_format).timestamp()
+        min_date = posts[-1]["created"]
+        min_data_timestamp = datetime.strptime(min_date, date_format).timestamp()
+        post_amount = len(posts)
 
-    scale = 10
-    created_diff = int(max_data_timestamp - min_data_timestamp)
-    score_value = created_diff / post_amount / scale
-    formatted_score_value = float('%.2f'%score_value)
+        if post_amount > 1:
+            scale = post_amount
+        else:
+            scale = post_amount - 1
+            
+        created_diff = int(max_data_timestamp - min_data_timestamp)
+        score_value = created_diff / post_amount / scale
+        formatted_score_value = float('%.2f'%score_value)
 
-    for post in posts:
-        date_score = int(datetime.strptime(post["created"], date_format).timestamp())
-        post_score = formatted_score_value * post["like_count"]
+        for post in posts:
+            date_score = int(datetime.strptime(post["created"], date_format).timestamp())
+            post_score = formatted_score_value * post["like_count"]
 
-        post["created_like_score"] = date_score + post_score
+            post["created_like_score"] = date_score + post_score
 
-    sorted_by_popularity_score = sorted(posts, key=lambda post: post["created_like_score"], reverse=True)
+        sorted_by_popularity_score = sorted(posts, key=lambda post: post["created_like_score"], reverse=True)
 
-    return sorted_by_popularity_score
+        return sorted_by_popularity_score
+    else:
+        return posts
