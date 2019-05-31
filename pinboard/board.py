@@ -85,6 +85,10 @@ def popularity_sorting(posts):
             scale = post_amount
         else:
             scale = post_amount - 1
+
+        # set scale to 1
+        if scale <= 1:
+            scale = 1
             
         created_diff = int(max_data_timestamp - min_data_timestamp)
         score_value = created_diff / post_amount / scale
