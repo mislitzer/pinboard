@@ -1,5 +1,7 @@
 # pinboard
 
+#### Tobias Heiss & Martin Islitzer
+
 ### Important Initial Steps
 - export FLASK_APP=pinboard
 - export FLASK_DEBUG=1
