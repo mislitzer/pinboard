@@ -2,7 +2,7 @@
 
 #### Tobias Heiss & Martin Islitzer
 
-### Important Initial Steps
+### Important Initial Steps after created Venv
 - export FLASK_APP=pinboard
 - export FLASK_DEBUG=1
 
